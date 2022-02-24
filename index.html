@@ -8,20 +8,38 @@
     <link rel="stylesheet" href="css/style.css">
   </head>
   <body>
-    <div style="text-align:center; margin: 50px 0px;">
-      <h1 class="titulo">Ahorcado</h1>
-      <a href="juego.html">
-        <button class="btn" id="iniciar-juego">INICIAR JUEGO</button>
-      </a>
+
+
+    <div id="inicio">
+      <div style="text-align:center; margin: 50px 0px;">
+        <h1 class="titulo">Ahorcado</h1>
+          <button class="btn" id="iniciar-juego" onclick="juego(palabras)">INICIAR JUEGO</button>
+      </div>
+      <div style="text-align:center">
+        <input class="text-input" type="text" id="input-nueva-palabra" placeholder="Escriba una nueva palabra" onkeypress="return ((event.charCode >= 97 && event.charCode <= 122)|| (event.charCode == 32) || event.charCode == 241 || event.charCode == 44 )"">
+        <button class="btn" id="nueva-palabra" onclick="agregar()">AGREGAR PALABRA</button> 
+      </div>
     </div>
-    <div style="text-align:center">
-      <input class="text-input" type="text" id="input-nueva-palabra" placeholder="Escriba una nueva palabra">
-      <button class="btn" id="nueva-palabra">AGREGAR PALABRA</button> 
-    </div>
+
     <div style="text-align:center;">
       <canvas id="ahorcado" height="800px" width="1200px"></canvas>
     </div>
-   
+
+    <section id="juego">
+      <canvas class="canvas" id = "canvas" width = "1200" , height="800">
+          <input class="seleccion">
+            <img src="img/ahorcado_pos_ini.png"  id = "horca">
+            <img src="img/ahorcado_pos_5.png"  id = "horca1">
+            <img src="img/ahorcado_pos_4.png"  id = "horca2">
+            <img src="img/ahorcado_pos_3.png" id = "horca3">
+            <img src="img/ahorcado_pos_2.png" id = "horca4">
+            <img src="img/ahorcado_pos_1.png"  id = "horca5">
+            <img src="img/ahorcado_0.png" id = "fin">
+      </canvas>
+    </section>
+  
+
     
+  <script type="text/javascript" src="js/replace.js"></script>
   </body>
 </html>

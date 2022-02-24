@@ -1,10 +1,12 @@
+
+
 function sortearPalabra(palabras) {
     var indice = Math.floor(Math.random()*(palabras.length));
     var opcion = palabras[indice];
     return opcion;
 }
 
-function dibujarLineas(i){   
+function dibujarLineas(i,pincel){   
     for(var p=0;p<i;p++){
             pincel.fillStyle = "Black";
             pincel.font = "30pt Verdana";
@@ -12,14 +14,14 @@ function dibujarLineas(i){
         }     
 }
 
-function dibujarLetrasCorrectas(i,a,){   
+function dibujarLetrasCorrectas(i,a,pincel){   
     pincel.fillStyle = "Black";
     pincel.font = "30pt Verdana";
     pincel.fillText(a, (700 + (40 * i)) , 700);     
       
 }
 
-function dibujarLetrasIncorrectas(i,a){   
+function dibujarLetrasIncorrectas(i,a,pincel){   
     pincel.fillStyle = "Black";
     pincel.font = "30pt Verdana";
     pincel.fillText(a, (700 + (40 * i)) , 300);         
@@ -115,71 +117,94 @@ function dibujo_ini(){
             ctx.drawImage(img, 10, 0);
         }
     }
-
-var pantalla = document.querySelector("canvas");
-var pincel = pantalla.getContext("2d");
-var palabras = ["ALURA" , "ORACLE" , "ORTOPEDIA" , "FUTBOL" , "MISTERIO" , "HELICOPTERO" , "HELADERA" , "ESQUEMA" ];
-var op = sortearPalabra(palabras);
-var opArray = op.split("");
-console.log(opArray);
-var letrasIncorrectas = [];
-var letrasCorrectas= [];
-var espacioLetras=[];
-var letraIngresada = "";
-var lg = "_";
-var intentos = 0;
-dibujarLineas(opArray.length);
-const cheq = new Set(opArray);
-let resultado = [...cheq];
-
-   dibujo_ini(); 
-    document.addEventListener("keydown", function(event){
-    letraIngresada = event.key.toUpperCase()
-
     
-    for (var i = 0 ; i < opArray.length ; i++){
-        
-        
-        
-        if(opArray.includes(letraIngresada)){    
-                if(opArray[i] == letraIngresada){
-                    
-                    dibujarLetrasCorrectas(i,letraIngresada);
-                    
-                    if(!letrasCorrectas.includes(letraIngresada)){
+function juego (palabras){
+    var ini = document.querySelector("#inicio");
+    document.getElementById("inicio").id = "inicio-none";
+    var pantalla = document.querySelector("canvas");
+    var pincel = pantalla.getContext("2d");
+    var op = sortearPalabra(palabras);
+    var opArray = op.split("");
+    console.log(opArray);
+    var letrasIncorrectas = [];
+    var letrasCorrectas= [];
+    var espacioLetras=[];
+    var letraIngresada = "";
+    var lg = "_";
+    var intentos = 0;
+    dibujarLineas(opArray.length,pincel);
+    const cheq = new Set(opArray);
+    let resultado = [...cheq];
+
+        dibujo_ini(); 
+        document.addEventListener("keydown", function(event){
+        letraIngresada = event.key.toUpperCase()
+            if((letraIngresada.charCodeAt(letraIngresada) >= 65) && (letraIngresada.charCodeAt(letraIngresada) <= 90)){
+                for (var i = 0 ; i < opArray.length ; i++){
+            
+            
+            
+                    if(opArray.includes(letraIngresada)){    
+                            if(opArray[i] == letraIngresada){
+                                
+                                dibujarLetrasCorrectas(i,letraIngresada,pincel);
+                                
+                                if(!letrasCorrectas.includes(letraIngresada,pincel)){
+                                    
+                                    letrasCorrectas.push(letraIngresada);
+                                    if(letrasCorrectas.length == resultado.length){
+                                        alert("Felicidades, Gano el Juego");
+                                    }
+                                    
+                                }
+                            
+                        }
+                    }else if(letrasIncorrectas.includes(letraIngresada)){
+            
+                        }else{
                         
-                        letrasCorrectas.push(letraIngresada);
-                        if(letrasCorrectas.length == resultado.length){
-                            alert("Felicidades, Gano el Juego");
+                            
+                            letrasIncorrectas.push(letraIngresada);
+                            dibujarLetrasIncorrectas(i,letrasIncorrectas,pincel);
+                            if(intentos<5){
+            
+                            }else{
+                                alert("Fin del juego");
+                            }
+                            
                         }
                         
-                    }
+                    }  
+                    intentos = letrasIncorrectas.length;
+                    intentosImg(intentos);
                 
-            }
-        }else if(letrasIncorrectas.includes(letraIngresada)){
-
-            }else{
-               
-                
-                letrasIncorrectas.push(letraIngresada);
-                dibujarLetrasIncorrectas(i,letrasIncorrectas);
-                if(intentos<5){
-
-                }else{
-                    alert("Fin del juego");
-                }
-                
-            }
+                    
+                }   
+                    
+            });
+        
             
-        }  
-        intentos = letrasIncorrectas.length;
-        intentosImg(intentos);
-       
-        
-        
-        
-});
+            console.log(espacioLetras)
+            
+        return palabras;
+    }
 
+function agregar(palabras){
+    var boton = document.querySelector("#nueva-palabra");
+    boton.addEventListener("click",function(event){
+        event.preventDefault();
+        var input = document.getElementById("input-nueva-palabra").value;
+            input = input.toUpperCase();
+            palabras.push(input);
+            document.getElementById("input-nueva-palabra").value = "";
+        
+      
+        });
+        return palabras;
 
-console.log(espacioLetras)
+}
 
+var palabras = ["ALURA" , "ORACLE" , "ORTOPEDIA" , "FUTBOL" , "MISTERIO" , "HELICOPTERO" , "HELADERA" , "ESQUEMA" ];
+    
+    
+    

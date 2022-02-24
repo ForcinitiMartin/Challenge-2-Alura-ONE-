@@ -34,12 +34,13 @@
   margin-top: 50px;
   margin-left: 300px;
 
-
-}
-.seleccion{
-  z-index: 5;
 }
 
-canvas{
-  background-color: gray;
+#inicio-none{
+  display: none;
+}
+
+#canvas{
+  transform: translate(-200px , -800px);
+
 }
